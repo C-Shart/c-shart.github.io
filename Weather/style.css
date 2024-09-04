@@ -1,6 +1,14 @@
 body {
     font-family: Tahoma, sans-serif;
     background-color: #f4f1ec;
+
+    background-image: url('weather_images/default.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
+    margin: 0;
+    padding: 0; 
 }
 
 .container {
@@ -19,7 +27,7 @@ h1 {
 }
 
 input[type="text"] {
-    width: 100%;
+    width: 80%;
     padding: 10px;
     margin: 10px 0;
     border: 1px solid #ccc;

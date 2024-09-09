@@ -33,11 +33,12 @@ searchButton.addEventListener('click', () => {
 
 function fetchWeatherByGeo(cityName,stateName,countryCode,limit,zipCode) {
     const onecallUrl = `${onecallBaseUrl}?lat=${lat}&lon=${long}&exclude=minutely&units=metric&appid=${apiKey}`;
+    var url;
 
     if (zipCode) {
-        const url = `${zipUrl}?zip=${zipCode},${countryCode}&appid=${apiKey}`;
+        url = `${zipUrl}?zip=${zipCode},${countryCode}&appid=${apiKey}`;
     } else {
-        const url = `${geoUrl}?q=${cityName},${stateName},${countryCode}&limit=${limit}&appid=${apiKey}`;
+        url = `${geoUrl}?q=${cityName},${stateName},${countryCode}&limit=${limit}&appid=${apiKey}`;
     };
     fetch(url)
         .then(geoResponse => geoResponse.json())

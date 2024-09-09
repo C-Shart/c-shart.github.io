@@ -1,8 +1,11 @@
 const apiKey = 'cab56abc71dba88a54826e3b27a6bb68'; // TODO: update & hide key, delete this one
 const geoUrl = 'http://api.openweathermap.org/geo/1.0/direct'
 const zipUrl = 'http://api.openweathermap.org/geo/1.0/zip';
-const onecallBaseUrl = 'https://api.openweathermap.org/data/3.0/onecall';
+const currentWeatherBaseUrl = 'https://api.openweathermap.org/data/2.5/weather';
 const cities = citiesList;
+
+//const zipRe = /^\d{5}$/;
+const zipRe = /^\d{5}(-\d{4})?(?!-)$/;
 
 const locationInput = document.getElementById('locationInput');
 
@@ -14,8 +17,6 @@ const locationElement = document.getElementById('location');
 const temperatureElement = document.getElementById('temperature');
 const descriptionElement = document.getElementById('description');
 
-
-
 searchButton.addEventListener('click', () => {
     const location = locationInput.value;
     if (location) {
@@ -23,34 +24,31 @@ searchButton.addEventListener('click', () => {
     }
 });
 
-/* _searchButton.addEventListener('click', () => {
-    const location = cityStateCountryInput.value;
-
-    if (location) {
-        fetchWeatherByGeo(location);
-    }
-}); */
-
-function fetchWeatherByGeo(cityName,stateName,countryCode,limit,zipCode) {
-    const onecallUrl = `${onecallBaseUrl}?lat=${lat}&lon=${long}&exclude=minutely&units=metric&appid=${apiKey}`;
+function fetchWeatherByGeo(location) {
+    const weatherUrl = `${currentWeatherBaseUrl}?lat=${lat}&lon=${long}&exclude=minutely&units=metric&appid=${apiKey}`;
     var url;
+    var lat;
+    var long;
+
+    zipCode = zipRe.test(location)
 
     if (zipCode) {
         url = `${zipUrl}?zip=${zipCode},${countryCode}&appid=${apiKey}`;
     } else {
-        url = `${geoUrl}?q=${cityName},${stateName},${countryCode}&limit=${limit}&appid=${apiKey}`;
+        url = `${geoUrl}?q=${cityName}&limit=1&appid=${apiKey}`;
+        // url = `${geoUrl}?q=${cityName},${stateName},${countryCode}&limit=${limit}&appid=${apiKey}`;
     };
     fetch(url)
         .then(geoResponse => geoResponse.json())
         .then(geoData => {
+            locationElement.textContent = geoData.name;
             lat = geoData.lat;
             long = geoData.long;
         })
 
-    fetch(onecallUrl)
+    fetch(weatherUrl)
         .then(response => response.json())
         .then(data => {
-            locationElement.textContent = data.name;
             temperatureElement.textContent = `${Math.round(data.main.temp)}°C`;
             descriptionElement.textContent = data.weather[0].description;
         })

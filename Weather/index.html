@@ -9,8 +9,17 @@
 <body>
     <div class="container">
         <h1>Weather App</h1>
-        <input type="text" id="locationInput" placeholder="Enter a city">
-        <button id="searchButton">Search</button>
+
+        <form autocomplete="off">
+        <div class="autocomplete"> <!--Don't need action attribute, I don't think?-->
+            <input type="text" id="locationInput" placeholder="Enter a city or US zip code">
+            <!--
+            <button id="searchButton">Search</button>
+            -->
+            <input id="searchButton" type="submit">
+        </div>
+        </form>
+
         <div class="weather-info">
             <h2 id="location"></h2>
             <p id="temperature"></p>
@@ -18,6 +27,7 @@
         </div>
 
         <script src="openweather.js"></script>
+        <script src="data/citiesList.js"></script>
     </div>
 </body>
 </html>

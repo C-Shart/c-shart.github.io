@@ -22,16 +22,46 @@ body {
     margin-top: 105px;
 }
 
+.autocomplete {
+    position: relative;
+    display: inline-block;
+}
+
 h1 {
     font-size: 24px;
 }
 
-input[type="text"] {
+input[type=text] {
     width: 80%;
     padding: 10px;
     margin: 10px 0;
     border: 1px solid #ccc;
     border-radius: 5px;
+}
+
+input[type=submit] {
+    background-color: #154c79;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.autocomplete-items {
+    padding: 10px;
+    cursor: pointer;
+    background-color: #fff;
+    border-bottom: 1px solid #d4d4d4;
+}
+
+.autocomplete-items div:hover {
+    background-color: #e9e9e9;
+}
+
+.autocomplete-active {
+    background-color: DodgerBlue !important;
+    color: #ffffff;
 }
 
 button {

@@ -49,6 +49,11 @@ function fetchWeatherByGeo(location) {
         })
 
     const weatherUrl = `${currentWeatherBaseUrl}?lat=${lat}&lon=${long}&exclude=minutely&units=metric&appid=${apiKey}`;
+
+    console.log(`lat: ${lat}`)
+    console.log(`lon: ${long}`)
+    console.log(`weatherUrl: ${weatherUrl}`)
+
     fetch(weatherUrl)
         .then(response => response.json())
         .then(data => {

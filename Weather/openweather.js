@@ -34,9 +34,10 @@ function fetchWeatherByGeo(location) {
     zipCode = zipRe.test(location)
 
     if (zipCode) {
-        url = `${zipUrl}?zip=${zipCode},${countryCode}&appid=${apiKey}`;
+        url = `${zipUrl}?zip=${location}&appid=${apiKey}`;
+        // url = `${zipUrl}?zip=${location},${countryCode}&appid=${apiKey}`;
     } else {
-        url = `${geoUrl}?q=${cityName}&limit=1&appid=${apiKey}`;
+        url = `${geoUrl}?q=${location}&limit=1&appid=${apiKey}`;
         // url = `${geoUrl}?q=${cityName},${stateName},${countryCode}&limit=${limit}&appid=${apiKey}`;
     };
     fetch(url)

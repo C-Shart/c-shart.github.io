@@ -43,9 +43,9 @@ function fetchWeatherByGeo(location) {
     fetch(url)
         .then(geoResponse => geoResponse.json())
         .then(geoData => {
-            locationElement.textContent = geoResponse.name;
-            lat = geoResponse.lat;
-            long = geoResponse.lon;
+            locationElement.textContent = geoData.name;
+            lat = geoData.lat;
+            long = geoData.lon;
             console.log(`__lat: ${lat}`)
             console.log(`__lon: ${long}`)
         })

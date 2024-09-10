@@ -26,11 +26,12 @@ searchButton.addEventListener('click', () => {
 });
 
 function fetchWeatherByGeo(location) {
-    const weatherUrl = `${currentWeatherBaseUrl}?lat=${lat}&lon=${long}&exclude=minutely&units=metric&appid=${apiKey}`;
+    
+    /* 
     var url;
     var lat;
     var long;
-
+    */
     zipCode = zipRe.test(location)
 
     if (zipCode) {
@@ -48,6 +49,7 @@ function fetchWeatherByGeo(location) {
             long = geoData.long;
         })
 
+    const weatherUrl = `${currentWeatherBaseUrl}?lat=${lat}&lon=${long}&exclude=minutely&units=metric&appid=${apiKey}`;
     fetch(weatherUrl)
         .then(response => response.json())
         .then(data => {

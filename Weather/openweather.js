@@ -40,6 +40,9 @@ function fetchWeatherByGeo(location) {
         url = `${geoUrl}?q=${location}&limit=1&appid=${apiKey}`;
         // url = `${geoUrl}?q=${cityName},${stateName},${countryCode}&limit=${limit}&appid=${apiKey}`;
     };
+
+    console.log(`url: ${url}`)
+
     fetch(url)
         .then(geoResponse => geoResponse.json())
         .then(geoData => {

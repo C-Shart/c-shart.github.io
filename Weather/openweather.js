@@ -26,12 +26,11 @@ searchButton.addEventListener('click', () => {
 });
 
 function fetchWeatherByGeo(location) {
-    
-    /* 
+
     var url;
     var lat;
     var long;
-    */
+
     zipCode = zipRe.test(location)
 
     if (zipCode) {

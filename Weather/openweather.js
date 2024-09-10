@@ -43,12 +43,13 @@ function fetchWeatherByGeo(location) {
     fetch(url)
         .then(geoResponse => geoResponse.json())
         .then(geoData => {
-            console.log(`geoData: ${geoData}`)
             locationElement.textContent = geoData.name;
             lat = geoData.lat;
             long = geoData.lon;
         })
         .then(() => {
+            console.log(`geoResponse: ${geoResponse}`)
+            console.log(`geoData: ${geoData}`)
             console.log(`__lat: ${lat}`)
             console.log(`__lon: ${long}`)
         })

@@ -48,7 +48,7 @@ function fetchGeo(location) {
 
     fetch(url)
         .then(geoResponse => geoResponse.json())
-        /* .then(geoData => {
+        .then(geoData => {
             console.log(".then geoData step")
             locationElement.textContent = geoData.name;
 
@@ -57,7 +57,7 @@ function fetchGeo(location) {
             lat = geoData.lat;
             long = geoData.lon;
         })
-        .then(() => {
+        /* .then(() => {
             console.log(".then logging step")
 
             console.log(`__test: ${test}`)

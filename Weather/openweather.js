@@ -59,15 +59,6 @@ function fetchGeo(location) {
             const weatherUrl = `${currentWeatherBaseUrl}?lat=${lat}&lon=${long}&exclude=minutely&units=metric&appid=${apiKey}`;
             fetchWeatherByGeo(weatherUrl)
         })
-        /* .then(() => {
-            console.log(".then logging step")
-
-            console.log(`__test: ${test}`)
-            //console.log(`geoResponse: ${geoResponse}`)
-            console.log(`geoData: ${geoData}`)
-            console.log(`__lat: ${lat}`)
-            console.log(`__lon: ${long}`)
-        })
         .catch(error => {
             console.error('Error fetching geo data:', error);
             console.error('HTTP Response:', response?.status);
@@ -76,13 +67,13 @@ function fetchGeo(location) {
             console.log(`geoData: ${geoData}`)
             console.log(`__lat: ${lat}`)
             console.log(`__lon: ${long}`)
-        }) */;
+        });
 
         //const weatherUrl = `${currentWeatherBaseUrl}?lat=${lat}&lon=${long}&exclude=minutely&units=metric&appid=${apiKey}`;
 
     console.log(`lat: ${lat}`)
     console.log(`lon: ${long}`)
-    console.log(`weatherUrl: ${weatherUrl}`)
+    //console.log(`weatherUrl: ${weatherUrl}`)
 
     //fetchWeatherByGeo(weatherUrl)
 

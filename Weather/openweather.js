@@ -5,8 +5,6 @@ const currentWeatherBaseUrl = 'https://api.openweathermap.org/data/2.5/weather';
 // const cities;
 // TODO: Guess I'll need to pull in the list of cities via some API somehow after all
 
-console.log("---------------------------------6")
-
 //const zipRe = /^\d{5}$/;
 const zipRe = /^\d{5}(-\d{4})?(?!-)$/;
 

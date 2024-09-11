@@ -57,6 +57,10 @@ function fetchGeo(location) {
             lat = geoData.lat;
             long = geoData.lon;
         })
+        .then(() => {
+            const weatherUrl = `${currentWeatherBaseUrl}?lat=${lat}&lon=${long}&exclude=minutely&units=metric&appid=${apiKey}`;
+            fetchWeatherByGeo(weatherUrl)
+        })
         /* .then(() => {
             console.log(".then logging step")
 
@@ -76,13 +80,13 @@ function fetchGeo(location) {
             console.log(`__lon: ${long}`)
         }) */;
 
-    const weatherUrl = `${currentWeatherBaseUrl}?lat=${lat}&lon=${long}&exclude=minutely&units=metric&appid=${apiKey}`;
+        //const weatherUrl = `${currentWeatherBaseUrl}?lat=${lat}&lon=${long}&exclude=minutely&units=metric&appid=${apiKey}`;
 
     console.log(`lat: ${lat}`)
     console.log(`lon: ${long}`)
     console.log(`weatherUrl: ${weatherUrl}`)
 
-    fetchWeatherByGeo(weatherUrl)
+    //fetchWeatherByGeo(weatherUrl)
 
 }
 

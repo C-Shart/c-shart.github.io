@@ -47,8 +47,8 @@ function fetchGeo(location) {
     console.log(`url: ${url}`)
 
     fetch(url)
-        /* .then(geoResponse => geoResponse.json())
-        .then(geoData => {
+        .then(geoResponse => geoResponse.json())
+        /* .then(geoData => {
             console.log(".then geoData step")
             locationElement.textContent = geoData.name;
 

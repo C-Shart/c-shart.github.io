@@ -1,11 +1,11 @@
 const apiKey = 'cab56abc71dba88a54826e3b27a6bb68'; // TODO: update & hide key, delete this one
-const geoUrl = 'http://api.openweathermap.org/geo/1.0/direct'
-const zipUrl = 'http://api.openweathermap.org/geo/1.0/zip';
+const geoUrl = 'https://api.openweathermap.org/geo/1.0/direct'
+const zipUrl = 'https://api.openweathermap.org/geo/1.0/zip';
 const currentWeatherBaseUrl = 'https://api.openweathermap.org/data/2.5/weather';
 // const cities;
 // TODO: Guess I'll need to pull in the list of cities via some API somehow after all
 
-console.log("---------------------------------4")
+console.log("---------------------------------5")
 
 //const zipRe = /^\d{5}$/;
 const zipRe = /^\d{5}(-\d{4})?(?!-)$/;
@@ -61,7 +61,7 @@ function fetchGeo(location) {
             console.log(".then logging step")
 
             console.log(`__test: ${test}`)
-            console.log(`geoResponse: ${geoResponse}`)
+            //console.log(`geoResponse: ${geoResponse}`)
             console.log(`geoData: ${geoData}`)
             console.log(`__lat: ${lat}`)
             console.log(`__lon: ${long}`)
@@ -69,7 +69,7 @@ function fetchGeo(location) {
         .catch(error => {
             console.error('Error fetching geo data:', error);
             console.log(`__test: ${test}`)
-            console.log(`geoResponse: ${geoResponse}`)
+            //console.log(`geoResponse: ${geoResponse}`)
             console.log(`geoData: ${geoData}`)
             console.log(`__lat: ${lat}`)
             console.log(`__lon: ${long}`)

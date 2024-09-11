@@ -47,7 +47,7 @@ function fetchGeo(location) {
     console.log(`url: ${url}`)
 
     fetch(url)
-        .then(geoResponse => geoResponse.json())
+        /* .then(geoResponse => geoResponse.json())
         .then(geoData => {
             console.log(".then geoData step")
             locationElement.textContent = geoData.name;
@@ -74,7 +74,7 @@ function fetchGeo(location) {
             console.log(`geoData: ${geoData}`)
             console.log(`__lat: ${lat}`)
             console.log(`__lon: ${long}`)
-        });
+        }) */;
 
     const weatherUrl = `${currentWeatherBaseUrl}?lat=${lat}&lon=${long}&exclude=minutely&units=metric&appid=${apiKey}`;
 

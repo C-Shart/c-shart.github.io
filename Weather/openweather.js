@@ -27,6 +27,7 @@ searchButton.addEventListener('click', () => {
 
 function fetchWeatherByGeo(location) {
 
+    var test;
     var url;
     var lat;
     var long;
@@ -46,11 +47,18 @@ function fetchWeatherByGeo(location) {
     fetch(url)
         .then(geoResponse => geoResponse.json())
         .then(geoData => {
+            console.log(".then geoData step")
             locationElement.textContent = geoData.name;
+
+            test = geoData;
+
             lat = geoData.lat;
             long = geoData.lon;
         })
         .then(() => {
+            console.log(".then logging step")
+
+            console.log(`__test: ${test}`)
             console.log(`geoResponse: ${geoResponse}`)
             console.log(`geoData: ${geoData}`)
             console.log(`__lat: ${lat}`)

@@ -5,7 +5,7 @@ const currentWeatherBaseUrl = 'https://api.openweathermap.org/data/2.5/weather';
 // const cities;
 // TODO: Guess I'll need to pull in the list of cities via some API somehow after all
 
-console.log("---------------------------------3")
+console.log("---------------------------------4")
 
 //const zipRe = /^\d{5}$/;
 const zipRe = /^\d{5}(-\d{4})?(?!-)$/;
@@ -68,6 +68,11 @@ function fetchGeo(location) {
         })
         .catch(error => {
             console.error('Error fetching geo data:', error);
+            console.log(`__test: ${test}`)
+            console.log(`geoResponse: ${geoResponse}`)
+            console.log(`geoData: ${geoData}`)
+            console.log(`__lat: ${lat}`)
+            console.log(`__lon: ${long}`)
         });
 
     const weatherUrl = `${currentWeatherBaseUrl}?lat=${lat}&lon=${long}&exclude=minutely&units=metric&appid=${apiKey}`;

@@ -5,7 +5,7 @@ const currentWeatherBaseUrl = 'https://api.openweathermap.org/data/2.5/weather';
 // const cities;
 // TODO: Guess I'll need to pull in the list of cities via some API somehow after all
 
-console.log("---------------------------------1")
+console.log("---------------------------------2")
 
 //const zipRe = /^\d{5}$/;
 const zipRe = /^\d{5}(-\d{4})?(?!-)$/;
@@ -23,11 +23,11 @@ const descriptionElement = document.getElementById('description');
 searchButton.addEventListener('click', () => {
     const location = locationInput.value;
     if (location) {
-        fetchWeatherByGeo(location);
+        fetchGeo(location);
     }
 });
 
-function fetchWeatherByGeo(location) {
+function fetchGeo(location) {
 
     var test;
     var url;
@@ -73,7 +73,12 @@ function fetchWeatherByGeo(location) {
     console.log(`lon: ${long}`)
     console.log(`weatherUrl: ${weatherUrl}`)
 
-    fetch(weatherUrl)
+    fetchWeatherByGeo(weatherUrl)
+
+}
+
+function fetchWeatherByGeo(geoUrl) {
+    fetch(geoUrl)
         .then(response => response.json())
         .then(data => {
             temperatureElement.textContent = `${Math.round(data.main.temp)}°C`;

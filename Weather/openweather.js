@@ -90,11 +90,11 @@ function fetchGeo(location) {
 function fetchWeatherByGeo(geoUrl) {
     fetch(geoUrl)
         .then(response => response.json())
-        .then(weatherData => {
+        /* .then(weatherData => {
             locationElement.textContent = weatherData.name;
             temperatureElement.textContent = `${Math.round(data.main.temp)}°C`;
             descriptionElement.textContent = data.weather[0].description;
-        })
+        }) */
         .catch(error => {
             console.error('Error fetching weather data:', error);
             console.error('HTTP Response:', response?.status);

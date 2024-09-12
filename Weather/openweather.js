@@ -41,17 +41,10 @@ function fetchGeo(location) {
     console.log(`ziptest: ${zipCode}`)
     console.log(`url: ${url}`)
 
-    fetch(url)
-        .then(geoResponse => {
-            if (geoResponse.ok) {
-                console.log(`Response OK: ${geoResponse}`)
-                return geoResponse.json();
-            }
-            throw new Error('Something went wrong');
-        })
-        .catch(error => {
+    return fetch(url)
+        .then((geoResponse) => geoResponse.json())
+        .catch((error) => {
             console.error('Error fetching geo data:', error);
-            console.error('HTTP Response:', response?.status);
         });
 }
 
@@ -62,13 +55,13 @@ async function fetchWeatherByGeo(geoUrl) {
     console.log(`weatherUrl: ${weatherUrl}`)
 
     fetch(weatherUrl)
-        .then(response => response.json())
-        .then(weatherData => {
+        .then((response) => response.json())
+        .then((weatherData) => {
             locationElement.textContent = weatherData.name;
             temperatureElement.textContent = `${Math.round(data.main.temp)}°C`;
             descriptionElement.textContent = data.weather[0].description;
         })
-        .catch(error => {
+        .catch((error) => {
             console.error('Error fetching weather data:', error);
             console.error('HTTP Response:', response?.status);
         });

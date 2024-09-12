@@ -46,6 +46,7 @@ function fetchGeo(location) {
     fetch(url)
         .then(geoResponse => {
             if (geoResponse.ok) {
+                console.log(`Response OK: ${geoResponse}`)
                 return geoResponse.json();
             }
             throw new Error('Something went wrong');

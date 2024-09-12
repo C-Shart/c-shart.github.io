@@ -41,18 +41,37 @@ async function fetchGeo(location) {
     console.log(`ziptest: ${zipCode}`)
     console.log(`url: ${url}`)
 
+    geoResponse = await fetch(url);
+    geoData = await geoResponse.json();
+
+    console.log(`geoData: ${geoData}`)
+
+    return geoData
+
+    /* 
     return fetch(url)
         .then((geoResponse) => geoResponse.json())
+        .then((data) => console.log(data))
         .catch((error) => {
             console.error('Error fetching geo data:', error);
         });
+    */
 }
 
-async function fetchWeatherByGeo(location) {
-    const geoData = await fetchGeo(location);
-    const weatherUrl = `${currentWeatherBaseUrl}?lat=${geoData.lat}&lon=${geoData.long}&exclude=minutely&units=metric&appid=${apiKey}`;
+async function fetchWeatherByGeo(inputLocation) {
+    const fetchedGeoData = await fetchGeo(inputLocation);
+    const weatherUrl = `${currentWeatherBaseUrl}?lat=${fetchedGeoData.lat}&lon=${fetchedGeoData.long}&exclude=minutely&units=metric&appid=${apiKey}`;
 
     console.log(`weatherUrl: ${weatherUrl}`)
+
+    weatherResponse = await fetch(weatherUrl);
+    weatherData = await weatherResponse.json();
+
+    console.log(`Weather Data: ${weatherData.name}, ${Math.round(weatherData.main.temp)}°C, ${weatherData.weather[0].description}`)
+
+    /* locationElement.textContent = weatherData.name;
+    temperatureElement.textContent = `${Math.round(data.main.temp)}°C`;
+    descriptionElement.textContent = data.weather[0].description;
 
     fetch(weatherUrl)
         .then((response) => response.json())
@@ -64,7 +83,7 @@ async function fetchWeatherByGeo(location) {
         .catch((error) => {
             console.error('Error fetching weather data:', error);
             console.error('HTTP Response:', response?.status);
-        });
+        }); */
 }
 
 // Autocomplete function stuff, currently non functional

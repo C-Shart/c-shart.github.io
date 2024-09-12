@@ -21,7 +21,7 @@ const descriptionElement = document.getElementById('description');
 searchButton.addEventListener('click', () => {
     const location = locationInput.value;
     if (location) {
-        fetchGeo(location);
+        fetchWeatherByGeo(location);
     }
 });
 
@@ -48,8 +48,8 @@ async function fetchGeo(location) {
         });
 }
 
-async function fetchWeatherByGeo(geoUrl) {
-    const geoData = await fetchGeo();
+async function fetchWeatherByGeo(location) {
+    const geoData = await fetchGeo(location);
     const weatherUrl = `${currentWeatherBaseUrl}?lat=${geoData.lat}&lon=${geoData.long}&exclude=minutely&units=metric&appid=${apiKey}`;
 
     console.log(`weatherUrl: ${weatherUrl}`)

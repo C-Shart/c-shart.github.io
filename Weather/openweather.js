@@ -26,7 +26,6 @@ searchButton.addEventListener('click', () => {
 });
 
 function fetchGeo(location) {
-    var test;
     var url;
     var lat;
     var long;
@@ -53,17 +52,20 @@ function fetchGeo(location) {
         })
         .then(geoData => {
             console.log(".then geoData step")
-            locationElement.textContent = geoData.name;
 
-            test = geoData;
+            const weatherUrl = `${currentWeatherBaseUrl}?lat=${lat}&lon=${long}&exclude=minutely&units=metric&appid=${apiKey}`;
 
+            geoName = geoData.name;
             lat = geoData.lat;
             long = geoData.lon;
-        })
-        .then(() => {
-            const weatherUrl = `${currentWeatherBaseUrl}?lat=${lat}&lon=${long}&exclude=minutely&units=metric&appid=${apiKey}`;
+
             fetchWeatherByGeo(weatherUrl)
         })
+        /* .then(weatherData => {
+            locationElement.textContent = weatherData.name;
+            temperatureElement.textContent = `${Math.round(data.main.temp)}°C`;
+            descriptionElement.textContent = data.weather[0].description;
+        }) */
         .catch(error => {
             console.error('Error fetching geo data:', error);
             console.error('HTTP Response:', response?.status);
@@ -87,7 +89,8 @@ function fetchGeo(location) {
 function fetchWeatherByGeo(geoUrl) {
     fetch(geoUrl)
         .then(response => response.json())
-        .then(data => {
+        .then(weatherData => {
+            locationElement.textContent = weatherData.name;
             temperatureElement.textContent = `${Math.round(data.main.temp)}°C`;
             descriptionElement.textContent = data.weather[0].description;
         })

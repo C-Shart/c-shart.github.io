@@ -25,7 +25,7 @@ searchButton.addEventListener('click', () => {
     }
 });
 
-function fetchGeo(location) {
+async function fetchGeo(location) {
     var url;
 
     zipCode = zipRe.test(location)

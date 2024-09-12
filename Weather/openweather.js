@@ -27,8 +27,6 @@ searchButton.addEventListener('click', () => {
 
 function fetchGeo(location) {
     var url;
-    var lat;
-    var long;
 
     zipCode = zipRe.test(location)
 
@@ -51,50 +49,25 @@ function fetchGeo(location) {
             }
             throw new Error('Something went wrong');
         })
-        .then(geoData => {
-            console.log(".then geoData step")
-
-            const weatherUrl = `${currentWeatherBaseUrl}?lat=${lat}&lon=${long}&exclude=minutely&units=metric&appid=${apiKey}`;
-
-            geoName = geoData.name;
-            lat = geoData.lat;
-            long = geoData.lon;
-
-            fetchWeatherByGeo(weatherUrl)
-        })
-        /* .then(weatherData => {
-            locationElement.textContent = weatherData.name;
-            temperatureElement.textContent = `${Math.round(data.main.temp)}°C`;
-            descriptionElement.textContent = data.weather[0].description;
-        }) */
         .catch(error => {
             console.error('Error fetching geo data:', error);
             console.error('HTTP Response:', response?.status);
-            console.log(`__test: ${test}`)
-            //console.log(`geoResponse: ${geoResponse}`)
-            console.log(`geoData: ${geoData}`)
-            console.log(`__lat: ${lat}`)
-            console.log(`__lon: ${long}`)
         });
-
-        //const weatherUrl = `${currentWeatherBaseUrl}?lat=${lat}&lon=${long}&exclude=minutely&units=metric&appid=${apiKey}`;
-
-    console.log(`lat: ${lat}`)
-    console.log(`lon: ${long}`)
-    //console.log(`weatherUrl: ${weatherUrl}`)
-
-    //fetchWeatherByGeo(weatherUrl)
-
 }
 
-function fetchWeatherByGeo(geoUrl) {
-    fetch(geoUrl)
+async function fetchWeatherByGeo(geoUrl) {
+    const geoData = await fetchGeo();
+    const weatherUrl = `${currentWeatherBaseUrl}?lat=${geoData.lat}&lon=${geoData.long}&exclude=minutely&units=metric&appid=${apiKey}`;
+
+    console.log(`weatherUrl: ${weatherUrl}`)
+
+    fetch(weatherUrl)
         .then(response => response.json())
-        /* .then(weatherData => {
+        .then(weatherData => {
             locationElement.textContent = weatherData.name;
             temperatureElement.textContent = `${Math.round(data.main.temp)}°C`;
             descriptionElement.textContent = data.weather[0].description;
-        }) */
+        })
         .catch(error => {
             console.error('Error fetching weather data:', error);
             console.error('HTTP Response:', response?.status);

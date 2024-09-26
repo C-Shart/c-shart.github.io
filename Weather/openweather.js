@@ -47,10 +47,20 @@ const fetchGeo = async location => {
         if (geoResponse.ok) {
             geoData = await geoResponse.json();
 
-            console.log(`geoResponse: ${geoResponse}`);
-            console.log(`geoData: ${geoData[0].name}`);
-            console.log(`geoData: ${geoData[0].lat}`);
-            console.log(`geoData: ${geoData[0].lon}`);
+            if (!geoData.name) {
+                console.log(`geoData.json: ${geoData[0]}`);
+                console.log(`geoData: ${geoData[0].name}`);
+                console.log(`geoData: ${geoData[0].lat}`);
+                console.log(`geoData: ${geoData[0].lon}`);
+
+                return geoData[0];
+            } else {
+                console.log(`geoData.json: ${geoData}`);
+                console.log(`geoData: ${geoData.name}`);
+                console.log(`geoData: ${geoData.lat}`);
+                console.log(`geoData: ${geoData.lon}`);
+                return geoData;
+            }
         }
     } catch(error) {
         console.log(error);
@@ -65,7 +75,7 @@ const fetchWeatherByGeo = async inputLocation => {
         const fetchedGeoData = await fetchGeo(inputLocation);
         
         if (fetchedGeoData) {
-            const weatherUrl = `${currentWeatherBaseUrl}?lat=${fetchedGeoData[0].lat}&lon=${fetchedGeoData[0].lon}&exclude=minutely&units=metric&appid=${apiKey}`;
+            const weatherUrl = `${currentWeatherBaseUrl}?lat=${fetchedGeoData.lat}&lon=${fetchedGeoData.lon}&exclude=minutely&units=metric&appid=${apiKey}`;
 
             console.log(`weatherUrl: ${weatherUrl}`)
 

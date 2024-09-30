@@ -91,11 +91,59 @@ const fetchWeatherByGeo = async inputLocation => {
                 weatherData = await weatherResponse.json();
             }
             console.log(`Weather Data: ${weatherData.name}, ${Math.round(weatherData.main.temp)}°C, ${weatherData.weather[0].description}`)
+
             locationElement.textContent = weatherData.name;
             temperatureElement.textContent = `${Math.round(weatherData.main.temp)}°${unitIndicator}`;
             descriptionElement.textContent = weatherData.weather[0].description;
+
+            changeBackgroundImage(weatherData.weather[0].icon)
         }
     } catch(error) {
         console.log(error)
     }
+};
+
+function changeBackgroundImage(weather) {
+    let weatherDoge;
+    switch (weather) {
+        case '03d':
+        case '03n':
+            weatherDoge = 'cloudy';
+            break;
+        case '50d':
+        case '50n':
+            weatherDoge = 'foggy';
+            break;
+        case '11d':
+        case '11n':
+            weatherDoge = 'lightning';
+            break;
+        case '04d':
+        case '04n':
+            weatherDoge = 'overcast';
+            break;
+        case '02d':
+        case '02n':
+            weatherDoge = 'partly_cloudy';
+            break;
+        case '09d':
+        case '09n':
+        case '10d':
+        case '10n':
+            weatherDoge = 'rainy';
+            break;
+        case '13d':
+        case '13n':
+            weatherDoge = 'snowy';
+            break;
+        case '01d':
+        case '01n':
+            weatherDoge = 'sunny';
+            break;
+    };
+
+    console.log(weather);
+    console.log(weatherDoge);
+
+    document.body.style.backgroundImage = `url('weather_images/${weatherDoge}.jpg')`;
 };

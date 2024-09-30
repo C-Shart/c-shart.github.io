@@ -142,8 +142,5 @@ function changeBackgroundImage(weather) {
             break;
     };
 
-    console.log(weather);
-    console.log(weatherDoge);
-
     document.body.style.backgroundImage = `url('weather_images/${weatherDoge}.jpg')`;
 };

@@ -14,9 +14,14 @@
         <form autocomplete="off">
         <div class="autocomplete"> <!--Don't need action attribute, I don't think?-->
             <input type="text" id="locationInput" placeholder="Enter a city or US zip code">
-            <!--
-            <button id="searchButton">Search</button>
-            -->
+
+            <br />
+            <input type="radio" id="celsius" name="tempUnits" value="celsius"><label for="celsius">Celsius</label>
+            <input type="radio" id="fahrenheit" name="tempUnits" value="fahrenheit"><label for="fahrenheit">Fahrenheit</label>
+            <br />
+            <br />
+
+            <!-- <button id="searchButton">Search</button> -->
             <input id="searchButton" type="submit">
         </div>
         </form>

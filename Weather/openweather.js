@@ -48,17 +48,8 @@ const fetchGeo = async location => {
             geoData = await geoResponse.json();
 
             if (!geoData.name) {
-                console.log(`geoData.json: ${geoData[0]}`);
-                console.log(`geoData: ${geoData[0].name}`);
-                console.log(`geoData: ${geoData[0].lat}`);
-                console.log(`geoData: ${geoData[0].lon}`);
-
                 return geoData[0];
             } else {
-                console.log(`geoData.json: ${geoData}`);
-                console.log(`geoData: ${geoData.name}`);
-                console.log(`geoData: ${geoData.lat}`);
-                console.log(`geoData: ${geoData.lon}`);
                 return geoData;
             }
         }
@@ -70,12 +61,27 @@ const fetchGeo = async location => {
 
 const fetchWeatherByGeo = async inputLocation => {
     let weatherData;
+    let tempUnits;
+    let unitIndicator;
+
+    if (document.getElementById('celsius').checked) {
+        tempUnits = 'metric';
+        unitIndicator = 'C';
+    }
+    else if (document.getElementById('fahrenheit').checked) {
+        tempUnits = 'imperial';
+        unitIndicator = 'F';
+    }
+    else {
+        tempUnits = 'standard';
+        unitIndicator = 'K';
+    }
 
     try {
         const fetchedGeoData = await fetchGeo(inputLocation);
         
         if (fetchedGeoData) {
-            const weatherUrl = `${currentWeatherBaseUrl}?lat=${fetchedGeoData.lat}&lon=${fetchedGeoData.lon}&exclude=minutely&units=metric&appid=${apiKey}`;
+            const weatherUrl = `${currentWeatherBaseUrl}?lat=${fetchedGeoData.lat}&lon=${fetchedGeoData.lon}&exclude=minutely&units=${tempUnits}&appid=${apiKey}`;
 
             console.log(`weatherUrl: ${weatherUrl}`)
 
@@ -86,7 +92,7 @@ const fetchWeatherByGeo = async inputLocation => {
             }
             console.log(`Weather Data: ${weatherData.name}, ${Math.round(weatherData.main.temp)}°C, ${weatherData.weather[0].description}`)
             locationElement.textContent = weatherData.name;
-            temperatureElement.textContent = `${Math.round(weatherData.main.temp)}°C`;
+            temperatureElement.textContent = `${Math.round(weatherData.main.temp)}°${unitIndicator}`;
             descriptionElement.textContent = weatherData.weather[0].description;
         }
     } catch(error) {

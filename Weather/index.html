@@ -12,7 +12,7 @@
         <h1>Weather Dogs!</h1>
 
         <form autocomplete="off">
-        <div class="autocomplete"> <!--Don't need action attribute, I don't think?-->
+        <div class="autocomplete" id="autocomplete"> <!--Don't need action attribute, I don't think?-->
             <input type="text" id="locationInput" placeholder="Enter a city or US zip code">
 
             <br />
@@ -28,6 +28,7 @@
 
         <div class="weather-info">
             <h2 id="location"></h2>
+            <p id="coordinates"></p>
             <p id="temperature"></p>
             <p id="description"></p>
         </div>

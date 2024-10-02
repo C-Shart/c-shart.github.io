@@ -2,8 +2,6 @@ const apiKey = 'cab56abc71dba88a54826e3b27a6bb68'; // TODO: update & hide key, d
 const geoUrl = 'https://api.openweathermap.org/geo/1.0/direct'
 const zipUrl = 'https://api.openweathermap.org/geo/1.0/zip';
 const currentWeatherBaseUrl = 'https://api.openweathermap.org/data/2.5/weather';
-// const cities;
-// TODO: Guess I'll need to pull in the list of cities via some API somehow after all
 
 //const zipRe = /^\d{5}$/;
 const zipRe = /^\d{5}(-\d{4})?(?!-)$/;
@@ -15,6 +13,7 @@ const zipInput = document.getElementById('zipCode');
 
 const searchButton = document.getElementById('searchButton');
 const locationElement = document.getElementById('location');
+const coordinatesElement = document.getElementById('coordinates');
 const temperatureElement = document.getElementById('temperature');
 const descriptionElement = document.getElementById('description');
 
@@ -32,15 +31,14 @@ const fetchGeo = async location => {
     const zipCode = zipRe.test(location);
 
     if (zipCode) {
-        url = `${zipUrl}?zip=${location}&appid=${apiKey}`;
+        url = `${zipUrl}?zip=${encodeURI(location)}&appid=${apiKey}`;
         // url = `${zipUrl}?zip=${location},${countryCode}&appid=${apiKey}`;
     } else {
-        url = `${geoUrl}?q=${location}&limit=1&appid=${apiKey}`;
+        url = `${geoUrl}?q=${encodeURI(location)}&limit=1&appid=${apiKey}`;
         // url = `${geoUrl}?q=${cityName},${stateName},${countryCode}&limit=${limit}&appid=${apiKey}`;
     };
 
-    console.log(`ziptest: ${zipCode}`)
-    console.log(`url: ${url}`)
+    console.log(`geo url: ${url}`)
 
     try {
         const geoResponse = await fetch(url, {method: "GET"});
@@ -81,7 +79,9 @@ const fetchWeatherByGeo = async inputLocation => {
         const fetchedGeoData = await fetchGeo(inputLocation);
         
         if (fetchedGeoData) {
-            const weatherUrl = `${currentWeatherBaseUrl}?lat=${fetchedGeoData.lat}&lon=${fetchedGeoData.lon}&exclude=minutely&units=${tempUnits}&appid=${apiKey}`;
+            const latitude = fetchedGeoData.lat;
+            const longitude = fetchedGeoData.lon;
+            const weatherUrl = `${currentWeatherBaseUrl}?lat=${latitude}&lon=${longitude}&exclude=minutely&units=${tempUnits}&appid=${apiKey}`;
 
             console.log(`weatherUrl: ${weatherUrl}`)
 
@@ -92,7 +92,8 @@ const fetchWeatherByGeo = async inputLocation => {
             }
             console.log(`Weather Data: ${weatherData.name}, ${Math.round(weatherData.main.temp)}°C, ${weatherData.weather[0].description}`)
 
-            locationElement.textContent = weatherData.name;
+            locationElement.textContent = `${weatherData.name}, ${fetchedGeoData.state}`;
+            coordinatesElement.textContent = `lat: ${latitude}, long: ${longitude}`;
             temperatureElement.textContent = `${Math.round(weatherData.main.temp)}° ${unitIndicator}`;
             descriptionElement.textContent = weatherData.weather[0].description;
 

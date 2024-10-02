@@ -93,7 +93,7 @@ const fetchWeatherByGeo = async inputLocation => {
             console.log(`Weather Data: ${weatherData.name}, ${Math.round(weatherData.main.temp)}°C, ${weatherData.weather[0].description}`)
 
             locationElement.textContent = weatherData.name;
-            temperatureElement.textContent = `${Math.round(weatherData.main.temp)}°${unitIndicator}`;
+            temperatureElement.textContent = `${Math.round(weatherData.main.temp)}° ${unitIndicator}`;
             descriptionElement.textContent = weatherData.weather[0].description;
 
             changeBackgroundImage(weatherData.weather[0].icon)

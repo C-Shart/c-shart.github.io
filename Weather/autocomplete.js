@@ -26,11 +26,13 @@ function autocomplete(containerElement, callback) {
 
         let promise = new Promise((resolve, reject) => {
             let apiKey = '96f166ff8faf4a0390893f1c75b4b2f1';
-            let params = `?text=${encodeURIComponent(currentValue)}&limit=5&apikey=${apiKey}`;
+            let params = `?text=${encodeURIComponent(currentValue)}&limit=5&apiKey=${apiKey}`;
 
             currentPromiseReject = reject;
 
             let url = `${autocompleteUrl}${params}`;
+            console.log(apiKey);
+            console.log(url);
 
             fetch(url)
                 .then(response => {
@@ -71,16 +73,17 @@ function autocomplete(containerElement, callback) {
             closeDropDownList();
         } 
         else if (!containerElement.querySelector('.autocomplete-items')) {
-            let event = document.createEvent('Event');
-            event('input', true, true);
-            inputElement.dispatchEvent(event);
+            const inputEvent = new Event('input', {'bubbles': true, 'cancelable': true});
+            document.dispatchEvent(inputEvent);
+
+            // inputElement.dispatchEvent(event);
         }
     });
 
     inputElement.addEventListener('keydown', function(e) {
         let autocompleteItemsElement = containerElement.querySelector('.autocomplete-items');
         if (autocompleteItemsElement) {
-            let itemElements = autocompleteITemsElement.getElementsByTagName('div');
+            let itemElements = autocompleteItemsElement.getElementsByTagName('div');
             if (e.key == 'ArrowDown') {
                 e.preventDefault();
                 focusedItemIndex = focusedItemIndex !== itemElements.length - 1 ? focusedItemIndex + 1 : 0;
@@ -129,8 +132,9 @@ function autocomplete(containerElement, callback) {
     }
 }
 
+export let autocomplete;
 
-autocomplete(document.getElementById('autocomplete'), data => {
+/* autocomplete(document.getElementById('autocomplete-input'), data => {
     console.log('Selected option: ');
     console.log(data);
-});
+}); */

@@ -30,7 +30,7 @@ searchButton.addEventListener('click', () => {
     let location = locationInput.value;
 
     try {
-        console.log(location);
+        // console.log(location);
         fetchWeatherByGeo(location);
         
         cityName = undefined;
@@ -78,8 +78,6 @@ const fetchGeo = async location => {
     let geoData;
     const usZipCode = zipRe.test(location);
 
-    console.log(`postCode: ${postCode}`);
-
     if (usZipCode) {
         url = `${zipUrl}?zip=${encodeURI(location)}&appid=${apiKey}`;
     } else if (!postCode && !cityName && !stateName && !countryCode) {
@@ -88,7 +86,7 @@ const fetchGeo = async location => {
         url = buildPreciseUrl();
     };
 
-    console.log(`geo url: ${url}`)
+    console.log(`url: ${url}`)
 
     try {
         const geoResponse = await fetch(url, {method: "GET"});
@@ -143,7 +141,7 @@ const fetchWeatherByGeo = async inputLocation => {
             if (weatherResponse.ok) {
                 weatherData = await weatherResponse.json();
             }
-            console.log(`Weather Data: ${weatherData.name}, ${Math.round(weatherData.main.temp)}°C, ${weatherData.weather[0].description}`)
+            // console.log(`Weather Data: ${weatherData.name}, ${Math.round(weatherData.main.temp)}°C, ${weatherData.weather[0].description}`)
 
             // locationElement.textContent = `${weatherData.name}, ${fetchedGeoData.state}`;
             locationElement.textContent = `${weatherData.name}, ${displayedState}`;
@@ -226,7 +224,7 @@ function autoSuggestions(containerElement, callback) {
             currentPromiseReject = reject;
 
             let url = `${autocompleteUrl}${params}`;
-            console.log(url);
+            // console.log(url);
 
             fetch(url)
                 .then(response => {
@@ -328,7 +326,7 @@ function autoSuggestions(containerElement, callback) {
         countryCode = item.properties.country_code;
         postCode = item.properties.postcode;
 
-        console.log(`setInputValue > ${cityName}, ${stateName}, ${countryCode}, ${postCode}`)
+        // console.log(`setInputValue > ${cityName}, ${stateName}, ${countryCode}, ${postCode}`)
 
         callback(item);
     }

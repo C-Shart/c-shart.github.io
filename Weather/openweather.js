@@ -18,30 +18,74 @@ const coordinatesElement = document.getElementById('coordinates');
 const temperatureElement = document.getElementById('temperature');
 const descriptionElement = document.getElementById('description');
 
-autocomplete(inputContainer, (data) => {});
+let cityName;
+let stateName;
+let countryCode;
+let postCode;
+
+autoSuggestions(inputContainer, (data) => {});
 
 searchButton.addEventListener('click', () => {
     event.preventDefault();
     let location = locationInput.value;
 
     try {
+        console.log(location);
         fetchWeatherByGeo(location);
+        
+        cityName = undefined;
+        stateName = undefined;
+        countryCode = undefined;
+        postCode = undefined;
+
+        autoSuggestions.closeDropDownList();            // TODO: troubleshoot
     } catch(error) {
         console.log(error);
     }
 });
 
+function buildPreciseUrl(input) {
+    let url;
+    let limit = 1;
+
+    if (cityName && stateName && countryCode) {
+        url = encodeURI(`${geoUrl}?q=${cityName},${stateName},${countryCode}&limit=${limit}&appid=${apiKey}`);
+    } else if (postCode) {
+        url = encodeURI(`${zipUrl}?zip=${postCode},${countryCode}&appid=${apiKey}`);
+    }
+    else {
+        throw new Error('Error');
+    }
+
+    return url;
+}
+
+function buildGeoUrlRetry(city, state, country) {
+    let url;
+    let limit = 1;
+
+    city = cityName;
+    state = stateName;
+    country = countryCode;
+
+    url = encodeURI(`${geoUrl}?q=${cityName},${stateName},${countryCode}&limit=${limit}&appid=${apiKey}`);
+
+    return url;
+}
+
 const fetchGeo = async location => {
     let url;
     let geoData;
-    const zipCode = zipRe.test(location);
+    const usZipCode = zipRe.test(location);
 
-    if (zipCode) {
+    console.log(`postCode: ${postCode}`);
+
+    if (usZipCode) {
         url = `${zipUrl}?zip=${encodeURI(location)}&appid=${apiKey}`;
-        // url = `${zipUrl}?zip=${location},${countryCode}&appid=${apiKey}`;
-    } else {
+    } else if (!postCode && !cityName && !stateName && !countryCode) {
         url = `${geoUrl}?q=${encodeURI(location)}&limit=1&appid=${apiKey}`;
-        // url = `${geoUrl}?q=${cityName},${stateName},${countryCode}&limit=${limit}&appid=${apiKey}`;
+    } else {
+        url = buildPreciseUrl();
     };
 
     console.log(`geo url: ${url}`)
@@ -59,6 +103,7 @@ const fetchGeo = async location => {
         }
     } catch(error) {
         console.log(error);
+
     }
     return geoData;
 };
@@ -89,6 +134,8 @@ const fetchWeatherByGeo = async inputLocation => {
             const longitude = fetchedGeoData.lon;
             const weatherUrl = `${currentWeatherBaseUrl}?lat=${latitude}&lon=${longitude}&exclude=minutely&units=${tempUnits}&appid=${apiKey}`;
 
+            const displayedState = stateName ? stateName : fetchedGeoData.state;
+
             console.log(`weatherUrl: ${weatherUrl}`)
 
             // Try to fetch the weather data
@@ -98,7 +145,8 @@ const fetchWeatherByGeo = async inputLocation => {
             }
             console.log(`Weather Data: ${weatherData.name}, ${Math.round(weatherData.main.temp)}°C, ${weatherData.weather[0].description}`)
 
-            locationElement.textContent = `${weatherData.name}, ${fetchedGeoData.state}`;
+            // locationElement.textContent = `${weatherData.name}, ${fetchedGeoData.state}`;
+            locationElement.textContent = `${weatherData.name}, ${displayedState}`;
             coordinatesElement.textContent = `lat: ${latitude}, long: ${longitude}`;
             temperatureElement.textContent = `${Math.round(weatherData.main.temp)}° ${unitIndicator}`;
             descriptionElement.textContent = weatherData.weather[0].description;
@@ -152,7 +200,7 @@ function changeBackgroundImage(weather) {
     document.body.style.backgroundImage = `url('weather_images/${weatherDoge}.jpg')`;
 };
 
-function autocomplete(containerElement, callback) {
+function autoSuggestions(containerElement, callback) {
     let currentPromiseReject;
     let currentItems;
 
@@ -178,7 +226,6 @@ function autocomplete(containerElement, callback) {
             currentPromiseReject = reject;
 
             let url = `${autocompleteUrl}${params}`;
-            console.log(geoapifyKey);
             console.log(url);
 
             fetch(url)
@@ -203,8 +250,7 @@ function autocomplete(containerElement, callback) {
                 itemElement.innerHTML = feature.properties.formatted;
 
                 itemElement.addEventListener('click', function(e) {
-                    inputElement.value = currentItems[index].properties.formatted;
-                    callback(currentItems[index]);
+                    setInputValue(currentItems[index]);
                     closeDropDownList();
                 });
 
@@ -262,11 +308,8 @@ function autocomplete(containerElement, callback) {
         for (var i=0; i < items.length; i++) {
             items[i].classList.remove('autocomplete-active');
         }
-
         items[index].classList.add('autocomplete-active');
-
-        inputElement.value = currentItems[index].properties.formatted;
-        callback(currentItems[index]);
+        setInputValue(currentItems[index]);
     }
 
     function closeDropDownList() {
@@ -275,5 +318,18 @@ function autocomplete(containerElement, callback) {
             containerElement.removeChild(autocompleteItemsElement);
         }
         focusedItemIndex = -1;
+    }
+
+    function setInputValue(item) {
+        inputElement.value = item.properties.formatted;
+
+        cityName = item.properties.city;
+        stateName = item.properties.state;
+        countryCode = item.properties.country_code;
+        postCode = item.properties.postcode;
+
+        console.log(`setInputValue > ${cityName}, ${stateName}, ${countryCode}, ${postCode}`)
+
+        callback(item);
     }
 }

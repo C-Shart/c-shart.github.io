@@ -6,9 +6,8 @@ const autocompleteUrl = 'https://api.geoapify.com/v1/geocode/autocomplete';
 
 const zipRe = /^\d{5}(-\d{4})?(?!-)$/;
 
-//const locationInput = document.getElementById('locationInput');
 const locationInput = document.getElementById('locationInput');
-const formInput = document.getElementById('formInput');
+const inputContainer = document.getElementById('inputContainer');
 
 const cityStateCountryInput = document.getElementById('cityStateCountryInput');
 const zipInput = document.getElementById('zipCode');
@@ -19,13 +18,16 @@ const coordinatesElement = document.getElementById('coordinates');
 const temperatureElement = document.getElementById('temperature');
 const descriptionElement = document.getElementById('description');
 
+autocomplete(inputContainer, (data) => {});
+
 searchButton.addEventListener('click', () => {
     event.preventDefault();
-    const location = formInput.value;
-    if (location) {
+    let location = locationInput.value;
+
+    try {
         fetchWeatherByGeo(location);
-    } else {
-        console.log("We have a porblem");
+    } catch(error) {
+        console.log(error);
     }
 });
 
@@ -153,11 +155,8 @@ function changeBackgroundImage(weather) {
 function autocomplete(containerElement, callback) {
     let currentPromiseReject;
     let currentItems;
-    
-    let inputElement = document.createElement('input');
-    inputElement.setAttribute('type', 'text');
-    inputElement.setAttribute('placeholder', 'Enter a city or US zip code');
-    inputElement.setAttribute('id', 'formInput');
+
+    let inputElement = document.getElementById('locationInput');
     containerElement.appendChild(inputElement);
 
     inputElement.addEventListener('input', function(e) {
@@ -278,5 +277,3 @@ function autocomplete(containerElement, callback) {
         focusedItemIndex = -1;
     }
 }
-
-autocomplete(locationInput, (data) => {});

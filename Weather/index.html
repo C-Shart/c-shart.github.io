@@ -11,9 +11,10 @@
     <div class="container">
         <h1>Weather Dogs!</h1>
 
-        <form autocomplete="off">
-        <div class="autocomplete"> <!--Don't need action attribute, I don't think?-->
-            <input type="text" id="locationInput" placeholder="Enter a city or US zip code">
+        <form autocomplete="on">
+            <div class="inputContainer" id="inputContainer">
+                <input type="text" id="locationInput" placeholder="Enter a city or US zip code">
+            </div>
 
             <br />
             <input type="radio" id="celsius" name="tempUnits" value="celsius"><label for="celsius">Celsius</label>
@@ -21,13 +22,12 @@
             <br />
             <br />
 
-            <!-- <button id="searchButton">Search</button> -->
             <input id="searchButton" type="submit">
-        </div>
         </form>
 
         <div class="weather-info">
             <h2 id="location"></h2>
+            <p id="coordinates"></p>
             <p id="temperature"></p>
             <p id="description"></p>
         </div>

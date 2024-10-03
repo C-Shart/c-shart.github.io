@@ -1,9 +1,6 @@
-const gn_username = 'tar_geonames';
-const gn_url = 'http://api.geonames.org/postalCodeLookupJSON';
-
 const autocompleteUrl = 'https://api.geoapify.com/v1/geocode/autocomplete';
 
-function autocomplete(containerElement, callback) {
+export function autocomplete(containerElement, callback) {
     let inputElement = document.createElement('input');
     let currentPromiseReject;
 
@@ -25,13 +22,13 @@ function autocomplete(containerElement, callback) {
         }
 
         let promise = new Promise((resolve, reject) => {
-            let apiKey = '96f166ff8faf4a0390893f1c75b4b2f1';
-            let params = `?text=${encodeURIComponent(currentValue)}&limit=5&apiKey=${apiKey}`;
+            let geoapifyKey = '96f166ff8faf4a0390893f1c75b4b2f1';
+            let params = `?text=${encodeURIComponent(currentValue)}&limit=5&apiKey=${geoapifyKey}`;
 
             currentPromiseReject = reject;
 
             let url = `${autocompleteUrl}${params}`;
-            console.log(apiKey);
+            console.log(geoapifyKey);
             console.log(url);
 
             fetch(url)
@@ -131,8 +128,6 @@ function autocomplete(containerElement, callback) {
         focusedItemIndex = -1;
     }
 }
-
-export let autocomplete;
 
 /* autocomplete(document.getElementById('autocomplete-input'), data => {
     console.log('Selected option: ');

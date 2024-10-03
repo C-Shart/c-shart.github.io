@@ -32,11 +32,6 @@ searchButton.addEventListener('click', () => {
     try {
         // console.log(location);
         fetchWeatherByGeo(location);
-        
-        cityName = undefined;
-        stateName = undefined;
-        countryCode = undefined;
-        postCode = undefined;
 
         autoSuggestions.closeDropDownList();            // TODO: troubleshoot
     } catch(error) {
@@ -56,19 +51,6 @@ function buildPreciseUrl(input) {
     else {
         throw new Error('Error');
     }
-
-    return url;
-}
-
-function buildGeoUrlRetry(city, state, country) {
-    let url;
-    let limit = 1;
-
-    city = cityName;
-    state = stateName;
-    country = countryCode;
-
-    url = encodeURI(`${geoUrl}?q=${cityName},${stateName},${countryCode}&limit=${limit}&appid=${apiKey}`);
 
     return url;
 }
@@ -126,7 +108,7 @@ const fetchWeatherByGeo = async inputLocation => {
 
     try {
         const fetchedGeoData = await fetchGeo(inputLocation);
-        
+
         if (fetchedGeoData) {
             const latitude = fetchedGeoData.lat;
             const longitude = fetchedGeoData.lon;
@@ -154,6 +136,11 @@ const fetchWeatherByGeo = async inputLocation => {
     } catch(error) {
         console.log(error)
     }
+
+    cityName = undefined;
+    stateName = undefined;
+    countryCode = undefined;
+    postCode = undefined;
 };
 
 function changeBackgroundImage(weather) {
@@ -224,7 +211,7 @@ function autoSuggestions(containerElement, callback) {
             currentPromiseReject = reject;
 
             let url = `${autocompleteUrl}${params}`;
-            // console.log(url);
+            // console.log(`suggest url: ${url}`);
 
             fetch(url)
                 .then(response => {
@@ -321,7 +308,7 @@ function autoSuggestions(containerElement, callback) {
     function setInputValue(item) {
         inputElement.value = item.properties.formatted;
 
-        cityName = item.properties.city;
+        cityName = item.properties.city ? item.properties.city : item.properties.name;
         stateName = item.properties.state;
         countryCode = item.properties.country_code;
         postCode = item.properties.postcode;

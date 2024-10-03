@@ -114,7 +114,11 @@ const fetchWeatherByGeo = async inputLocation => {
             const longitude = fetchedGeoData.lon;
             const weatherUrl = `${currentWeatherBaseUrl}?lat=${latitude}&lon=${longitude}&exclude=minutely&units=${tempUnits}&appid=${apiKey}`;
 
-            const displayedState = stateName ? stateName : fetchedGeoData.state;
+            const displayedState = fetchedGeoData.state ? fetchedGeoData.state : stateName;
+
+            console.log(`stateName: ${stateName}`)
+            console.log(`fetchedGeoData.state: ${fetchedGeoData.state}`)
+
 
             console.log(`weatherUrl: ${weatherUrl}`)
 
@@ -125,8 +129,12 @@ const fetchWeatherByGeo = async inputLocation => {
             }
             // console.log(`Weather Data: ${weatherData.name}, ${Math.round(weatherData.main.temp)}°C, ${weatherData.weather[0].description}`)
 
-            // locationElement.textContent = `${weatherData.name}, ${fetchedGeoData.state}`;
-            locationElement.textContent = `${weatherData.name}, ${displayedState}`;
+            let locationString = `${weatherData.name}`;
+            if (displayedState) {
+                locationString += `, ${displayedState}`
+            }
+
+            locationElement.textContent = locationString;
             coordinatesElement.textContent = `lat: ${latitude}, long: ${longitude}`;
             temperatureElement.textContent = `${Math.round(weatherData.main.temp)}° ${unitIndicator}`;
             descriptionElement.textContent = weatherData.weather[0].description;
@@ -313,7 +321,7 @@ function autoSuggestions(containerElement, callback) {
         countryCode = item.properties.country_code;
         postCode = item.properties.postcode;
 
-        // console.log(`setInputValue > ${cityName}, ${stateName}, ${countryCode}, ${postCode}`)
+        console.log(`setInputValue > ${cityName}, ${stateName}, ${countryCode}, ${postCode}`)
 
         callback(item);
     }
